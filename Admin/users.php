@@ -1,0 +1,105 @@
+<?php
+include("../conexion.php");
+include "encabezado.php";
+
+// Verifica si se ha enviado el formulario de eliminación
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmar_eliminar'])) {
+    $id_usuario = $_POST['id_usuario'];
+
+    // Prepara y ejecuta la consulta para eliminar el usuario
+    $stmt = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
+    $stmt->execute([$id_usuario]);
+
+    // Redirige a la página actual para actualizar la lista de usuarios
+    header("Location: " . $_SERVER['PHP_SELF']);
+}
+
+?>
+
+<br>
+<h1>ADMINISTRADOR DE USUARIOS</h1>
+<hr>
+
+<table class="table">
+    <tr>
+        <th>USUARIO/EMAIL</th>
+        <th>CONTRASEÑA</th>
+        <th>NIVEL</th>
+        <th>AVATAR</th>
+        <th>FECHA DE REGISTRO</th>
+        <th>MODIFICAR</th>
+        <th>ELIMINAR</th>
+    </tr>
+    <?php
+
+    // Define un array asociativo para mapear los valores numéricos a los textos correspondientes
+    $niveles = array(
+        1 => "Administrador",
+        2 => "Usuario"
+    );
+
+    $stmt = $conn->prepare("SELECT * FROM usuarios");
+
+    $stmt->execute();
+    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+        echo "<tr>";
+        echo "<td> " . $row->email . "</td>";
+        echo "<td><i class='fa-solid fa-file-pen' style='font-size: 40px'></i></td>";
+
+        echo "<td>" . $niveles[$row->tipo] . "</td>";
+
+        echo "<td><img src='../" . $row->avatar . "' class='w-5' style='width: 100px'></td>";
+        echo "<td>" . $row->fechaRegistro . "</td>";
+
+        echo "<td><i class='fa-solid fa-file-pen' style='font-size: 40px'></i></td>";
+        echo "<td>
+                <form method='POST' onsubmit='return confirm(\"¿Estás seguro de que deseas eliminar este usuario?\");'>
+                    <input type='hidden' name='id_usuario' value='" . $row->id . "'>
+                    <button type='submit' name='confirmar_eliminar' class='btn btn-danger'>
+                        <i class='fa-solid fa-trash-can' style='font-size: 20px'></i> Eliminar
+                    </button>
+                </form>
+              </td>";
+        echo "</tr>";
+    }
+    $conn = null;
+    ?>
+</table>
+<button onclick="document.getElementById('altaUsuario').style.display='block'" type="button">Agregar Usuario</button>
+
+<div id="altaUsuario" class="modal">
+    <span onclick="document.getElementById('altaUsuario').style.display='none'" class="close" title="Close">&times;</span>
+    <form class="modal-content" action="altaUser.php" method="POST" enctype="multipart/form-data">
+        <div class="container">
+            <h1>Agregar Nuevo Usuario</h1>
+            <hr>
+            <div class="mb-3">
+                <label class="form-label" for="email"><b>Email</b></label>
+                <input class="form-control" type="email" placeholder="Email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="contrasena"><b>Contraseña</b></label>
+                <input class="form-control" type="password" placeholder="Contraseña" name="contrasena" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="nivel"><b>Nivel</b></label>
+                <select class="form-control" name="nivel" required>
+                    <option value="1">Administrador</option>
+                    <option value="2">Usuario</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="avatar"><b>Avatar</b></label>
+                <input class="form-control" type="file" name="avatar" required>
+            </div>
+            <div class="clearfix">
+                <button type="button" onclick="document.getElementById('altaUsuario').style.display='none'" class="cancelbtn">Cancelar</button>
+                <button type="submit" class="signup">Agregar Usuario</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<?php
+include "footer.php";
+?>
