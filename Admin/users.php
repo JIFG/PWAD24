@@ -116,8 +116,4 @@ function obtenerNombreNivel($tipo) {
         </div>
     </form>
 </div>
-
-
-<?php
-include "footer.php";
-?>
+<script src="https://kit.fontawesome.com/9459b47ce8.js" crossorigin="anonymous"></script>

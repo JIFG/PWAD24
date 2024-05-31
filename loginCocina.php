@@ -38,11 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://kit.fontawesome.com/9459b47ce8.css" crossorigin="anonymous">
-<link rel="stylesheet" href="admin/CSS/estilos.css"> <!-- Agregar referencia a la hoja de estilos externa -->
+<link rel="stylesheet" href="admin/CSS/estilos.css"> 
 </head>
 <body>
 <header class="d-flex justify-content-between">
-<img src="../img/escudo.png" alt="Logotipo del sitio" id="logotipo" class="producto" />
+<img src="img/logos/4u.jpeg" alt="Logotipo del sitio" id="logotipo" class="producto" />
 </header>
 <main class="w-50 text-center">
 <h1>Iniciar sesión</h1>

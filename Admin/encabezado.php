@@ -38,25 +38,19 @@ echo '<!DOCTYPE html>
 <header class="d-flex justify-content-between">
 <div class="d-flex">
 <img
-src="../img/escudo.png"
+src="../img/logos/4u.jpeg"
 alt="Logotipo del sitio"
 id="logotipo"
 class="producto"
 />
 <div class="topnav" id="myTopnav">
-<a href="index.php" class="active">Home</a>
 <a href="users.php">Usuarios</a>
-<a href="categorias.php">Categorias productos</a>
-<a href="productos.php">Productos</a>
-<a href="ventas.php">Ventas</a>
-<i class="fa fa-bars"></i>
+<a href="categorias.php">Menu platillos</a>
 </a>
 </div>
 </div>
 <div id="botones">
 <form action="">
-<input type="text">
-<i class="fa-solid fa-magnifying-glass btos"></i>
 </form>
 <div class="d-block" style="margin-top: 10px;">
 <button class="btn-salir"><a href="salir.php">Salir</a></button>

@@ -5,7 +5,7 @@ if (!isset($_SESSION['tipo']) || ($_SESSION['tipo'] != 1 && $_SESSION['tipo'] !=
     header("Location: acceso_no_autorizado.php");
     exit();
 }
-
+include "admin/footer.php";
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
@@ -181,11 +181,6 @@ if (!isset($_SESSION['tipo']) || ($_SESSION['tipo'] != 1 && $_SESSION['tipo'] !=
         ?>
     </div>
 </main>
-
-
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; Cocina.</p>
-    </footer>
 
     <script>
         function recargarPagina() {

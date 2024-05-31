@@ -33,7 +33,7 @@ if (isset($_GET['id'])) {
     $usuario = $stmt->fetch(PDO::FETCH_OBJ);
 } else {
     // Si no se proporciona un ID de usuario, redirige a la página de usuarios
-    header("Location: usuarios.php");
+    header("Location: users.php");
     exit();
 }
 
@@ -62,6 +62,7 @@ if (isset($_GET['id'])) {
     </div>
     <div class="clearfix">
         <button type="submit" name="editar_usuario" class="signup">Guardar Cambios</button>
+        <button type="submit" name="cancelar" class="btn btn-danger">Cancelar</button>
     </div>
 </form>
 

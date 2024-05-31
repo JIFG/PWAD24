@@ -119,6 +119,7 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
       .card-text {
         font-size: 0.875rem;
       }
+      
       .btn-primary {
         background-color: #17a2b8;
         border: none;
@@ -149,24 +150,34 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
           width: 100%;
         }
       }
+      .socio-id {
+        position: absolute;
+        top: 20px;
+        right: 140px;
+      }
+
+    .btn-salir {
+      background-color: transparent;
+      border: none;
+      color: #17a2b8;
+      font-weight: bold;
+    }
+    .btn-salir a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .btn-salir:hover {
+      background-color: rgba(23, 162, 184, 0.1);
+    }
     </style>
   </head>
   <body>
   <?php
-
-
-// if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
-//     echo "Usuario: " . $_SESSION['user'] . "<br>";
-//     echo "Contraseña: " . $_SESSION['pss'] . "<br>";
-//     echo "ID de Socio: " . $_SESSION['socioId'] . "<br>";
-// } else {
-//     echo "No has iniciado sesión.";
-// }
-// ?>
+?>
     <header>
       <div class="d-flex align-items-center">
         <img
-          src="./img/Cocina/logococina.jpeg"
+          src="img/logos/4u.jpeg"
           alt="Logotipo del sitio"
           id="logotipo"
           class="producto"
@@ -174,7 +185,9 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
       </div>
       <div class="topnav" id="myTopnav">
         <h3>Cafetería</h3>
-        <h3>Socio ID: <?php echo $_SESSION['socioId']; ?></h3>
+      </div>
+      <div class="socio-id">
+        <h5>Socio ID: <?php echo $_SESSION['socioId']; ?></h5>
       </div>
       <button class="btn-salir"><a href="admin/salir.php">Salir</a></button>
     </header>
@@ -264,34 +277,34 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
       </div>
       <!-- Fin del carrusel -->
 
-      <section class="d-flex justify-content-between p-4" id="CardsPropios">
+      <section class="d-flex flex-wrap justify-content-between p-4 g-4" id="CardsPropios">
       <?php
-try {
-    $stmt = $conn->prepare("SELECT * FROM cocina2");
-    $stmt->execute();
-    $count = 0; // Variable para generar IDs únicos
+      try {
+        $stmt = $conn->prepare("SELECT * FROM cocina2");
+        $stmt->execute();
+        $count = 0; // Variable para generar IDs únicos
 
-    while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {
-        $formId = 'pedidoForm' . $count;
-        echo '<div class="card" style="width: 18rem">
-            <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
-            <div class="card-body">
-                <h5 class="card-title">' . strtoupper($result->categoria) . '</h5>
-                <p class="card-text">' . $result->descripcion . '</p>
-                <a href="#" onclick="document.getElementById(\'' . $formId . '\').submit()" class="btn btn-primary">Pedir</a>
-                <form id="' . $formId . '" action="agregarpedido.php" method="post" style="display: none;">
-                    <input type="hidden" name="menuId" value="' . $result->menuId . '">
-                </form>
-            </div>
+        while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {
+      $formId = 'pedidoForm' . $count;
+      echo '<div class="card" style="width: 18rem; margin: 10px; border: 1px solid #333; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);">
+          <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
+          <div class="card-body" style="background-color: #F7F7F7; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h5 class="card-title" style="color: #17A2B8;">' . strtoupper($result->categoria) . '</h5>
+        <p class="card-text" style="color: #333;">' . $result->descripcion . '</p>
+        <a href="#" onclick="document.getElementById(\'' . $formId . '\').submit()" class="btn btn-primary" style="background-color: #17A2B8; border: none; ">Pedir</a>
+        <form id="' . $formId . '" action="agregarpedido.php" method="post" style="display: none;">
+          <input type="hidden" name="menuId" value="' . $result->menuId . '">
+        </form>
+          </div>
         </div>';
-        $count++;
+      $count++;
         }
       } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
       }
       $conn = null;
       ?>
-        </section>
+    </section>
       </div>
       <!-- Fin del Section de Catálogos -->
     </main>
@@ -313,6 +326,15 @@ try {
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+    <script>
+        // Verificar si existe un mensaje de éxito en la variable de sesión
+        <?php if (isset($_SESSION['success_message'])): ?>
+            // Mostrar una ventana emergente con el mensaje de éxito
+            alert("<?php echo $_SESSION['success_message']; ?>");
+            // Eliminar el mensaje de éxito de la variable de sesión
+            <?php unset($_SESSION['success_message']); ?>
+        <?php endif; ?>
+    </script>
     <script>
       function myFunction() {
         var x = document.getElementById("myTopnav")

@@ -14,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["menuId"])) {
         $stmt->bindParam(1, $socioId);
         $stmt->bindParam(2, $menuId);
         $stmt->execute();
-        
-        header("Location: pedidorealizado.php");
+        $_SESSION['success_message'] = "El pedido ha sido agregado exitosamente.";
+        header("Location: {$_SERVER['HTTP_REFERER']}");
         exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();

@@ -1,3 +1,5 @@
 
 RewriteEngine On
 RewriteRule ^login$ logincocina.php [L]
+RewriteRule ^admin$ users.php [L]
+RewriteRule ^login$ logincocina.php [L]
