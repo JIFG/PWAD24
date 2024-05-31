@@ -75,7 +75,7 @@ include "conexion.php";
       <!-- inicio de carta -->
       <?php
       try {
-        $stmt = $conn->prepare("SELECT * FROM categorias");
+        $stmt = $conn->prepare("SELECT * FROM cocina2");
         $stmt->execute();
 
         while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {

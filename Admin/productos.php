@@ -3,7 +3,7 @@ include("../conexion.php"); include "encabezado.php";
 
 $stmt =$conn->prepare("SELECT * FROM productos");
 $stmt->execute();
-$stmt2 =$conn->prepare("SELECT * FROM categorias");
+$stmt2 =$conn->prepare("SELECT * FROM cocina2");
 $stmt2->execute();
 echo '
 <!-- Form Alta Productos -->

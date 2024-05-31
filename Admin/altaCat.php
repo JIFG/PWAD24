@@ -6,7 +6,7 @@ $catPadre=$_POST["catPadre"];
 $img=$_FILES['img']['name'] ? "img/catalogo/categorias/".$_FILES['img']['name'] : "img/catalogo/categorias/no-image.png";
 $desc=$_POST["desc"];
 
-$stmt=$conn->prepare("INSERT INTO `categorias`(`categoria`, `imagen`, `catPadre`, `descripcion`) VALUES (?, ?, ?, ?)");
+$stmt=$conn->prepare("INSERT INTO `cocina2`(`categoria`, `imagen`, `catPadre`, `descripcion`) VALUES (?, ?, ?, ?)");
 $stmt->bindParam(1, $cat);
 $stmt->bindParam(2, $img);
 $stmt->bindParam(3, $catPadre);

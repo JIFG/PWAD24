@@ -1,5 +1,6 @@
 <?php
-include("../conexion.php"); include "encabezado.php";
+include("../conexion.php"); 
+include "encabezado.php";
 
 $stmt =$conn->prepare("SELECT * FROM cocina2");
 $stmt->execute();
@@ -83,14 +84,14 @@ $stmt =$conn->prepare("SELECT * FROM cocina2");
 $stmt->execute();
 while($row = $stmt->fetch(PDO::FETCH_OBJ)){ echo "<tr>";
 echo "<td>" . $row->categoria . "</td>";
-$stmt2 = $conn->prepare("SELECT * FROM cocina2 WHERE id = ?");
+$stmt2 = $conn->prepare("SELECT * FROM cocina2 WHERE menuId = ?");
 $stmt2->execute([$row->catPadre]);
 if($row2=$stmt2->fetch(PDO::FETCH_OBJ)){ echo "<td>" . $row2->categoria . "</td>";
 }else{
 echo "<td> -- </td>";
 }
 echo "<td><img src='../" . $row->imagen . "' class='w-5' style='width:100px'></td>"; echo "<td>" . $row->descripcion . "</td>";
-echo '<td><a class="btn btn-sm" style="width: auto;" href="editCatForm.php?id='.$row->id.'"><i class="fa-solid fa-file-pen" style="font-size:40px"></i></a></td>';
+echo '<td><a class="btn btn-sm" style="width: auto;" href="editCatForm.php?menuId='.$row->id.'"><i class="fa-solid fa-file-pen" style="font-size:40px"></i></a></td>';
 echo '<td><button type="button" class="btn btn-sm" style="width:auto" onclick="document.getElementById(&quot;delCat&quot;).style.display=&quot;block&quot;; document.getElementById(&quot;delCatSel&quot;).innerHTML=&quot;'.$row->categoria.'&quot;;
 document.getElementById(&quot;idCatDel&quot;).value=&quot;'.$row->id.'&quot;;"><i class="fa-solid fa-trash-can" style="font-size:40px"></i></button></td>'; echo "</tr>";
 }

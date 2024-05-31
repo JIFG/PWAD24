@@ -1,8 +1,8 @@
 <?php 
 include "conexion.php";
+include "admin/seguridad.php";
 ?>
 <?php
-session_start();
 
 if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
     // La sesión ha caducado o el usuario no ha iniciado sesión
@@ -154,15 +154,15 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
   <body>
   <?php
 
-// Verificar si el usuario ha iniciado sesión
-if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
-    echo "Usuario: " . $_SESSION['user'] . "<br>";
-    echo "Contraseña: " . $_SESSION['pss'] . "<br>";
-    echo "ID de Socio: " . $_SESSION['socioId'] . "<br>";
-} else {
-    echo "No has iniciado sesión.";
-}
-?>
+
+// if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
+//     echo "Usuario: " . $_SESSION['user'] . "<br>";
+//     echo "Contraseña: " . $_SESSION['pss'] . "<br>";
+//     echo "ID de Socio: " . $_SESSION['socioId'] . "<br>";
+// } else {
+//     echo "No has iniciado sesión.";
+// }
+// ?>
     <header>
       <div class="d-flex align-items-center">
         <img
@@ -176,6 +176,7 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
         <h3>Cafetería</h3>
         <h3>Socio ID: <?php echo $_SESSION['socioId']; ?></h3>
       </div>
+      <button class="btn-salir"><a href="admin/salir.php">Salir</a></button>
     </header>
 
     <main>
@@ -210,7 +211,7 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="img/Cocina/cena1.jpg"
+              src="img/slides/acuario.jpg"
               class="d-block w-100"
               alt="Cocina moderna"
             />
@@ -265,23 +266,25 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
 
       <section class="d-flex justify-content-between p-4" id="CardsPropios">
       <?php
-      try {
-        $stmt = $conn->prepare("SELECT * FROM cocina2");
-        $stmt->execute();
+try {
+    $stmt = $conn->prepare("SELECT * FROM cocina2");
+    $stmt->execute();
+    $count = 0; // Variable para generar IDs únicos
 
-        while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {
-          echo '<div class="card" style="width: 18rem">
-    <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
-    <div class="card-body">
-        <h5 class="card-title">' . strtoupper($result->categoria) . '</h5>
-        <p class="card-text">' . $result->descripcion . '</p>
-        <a href="#" onclick="document.getElementById(\'pedidoForm\').submit()" class="btn btn-primary">Pedir</a>
-
-        <form id="pedidoForm" action="agregarpedido.php" method="post" style="display: none;">
-            <input type="hidden" name="menuId" value="' . $result->menuId . '">
-        </form>
-    </div>
-</div>';
+    while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {
+        $formId = 'pedidoForm' . $count;
+        echo '<div class="card" style="width: 18rem">
+            <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
+            <div class="card-body">
+                <h5 class="card-title">' . strtoupper($result->categoria) . '</h5>
+                <p class="card-text">' . $result->descripcion . '</p>
+                <a href="#" onclick="document.getElementById(\'' . $formId . '\').submit()" class="btn btn-primary">Pedir</a>
+                <form id="' . $formId . '" action="agregarpedido.php" method="post" style="display: none;">
+                    <input type="hidden" name="menuId" value="' . $result->menuId . '">
+                </form>
+            </div>
+        </div>';
+        $count++;
         }
       } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();

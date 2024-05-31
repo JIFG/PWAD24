@@ -1,5 +1,11 @@
 <?php 
 include "conexion.php";
+include "admin/seguridad.php";
+if (!isset($_SESSION['tipo']) || ($_SESSION['tipo'] != 1 && $_SESSION['tipo'] != 3)) {
+    header("Location: acceso_no_autorizado.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
@@ -145,19 +151,19 @@ include "conexion.php";
     <div class="row">
         <?php
         try {
-            // Consulta para obtener los pedidos temporales y las descripciones de la tabla Cocina2
+            
             $stmt = $conn->prepare("SELECT pt.id, pt.socioId, pt.menuId, pt.fecha_pedido, pt.entregado, c2.descripcion 
                                     FROM Pedidos_Temporales pt 
                                     INNER JOIN Cocina2 c2 ON pt.menuId = c2.menuId");
             $stmt->execute(); 
 
-            // Mostrar los resultados de la consulta
+           
             while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Pedido Socio #: ' . $result['socioId'] . '</h5>
+                            <h5 class="card-title">Pedido Socio # ' . $result['socioId'] . '</h5>
                             <p class="card-text">Descripción: ' . $result['descripcion'] . '</p>
                             <p class="card-text">Entregado: ' . ($result['entregado'] ? 'Sí' : 'No') . '</p>
                             <form method="POST" action="admin/eliminarpedido.php" onsubmit="return confirm(\'¿Estás seguro de que deseas eliminar este pedido?\');">
@@ -180,5 +186,14 @@ include "conexion.php";
     <footer class="bg-dark text-white text-center py-3">
         <p>&copy; Cocina.</p>
     </footer>
+
+    <script>
+        function recargarPagina() {
+            setTimeout(function() {
+                location.reload(true); 
+            }, 60000);
+        }
+        recargarPagina();
+    </script>
 </body>
 </html>
