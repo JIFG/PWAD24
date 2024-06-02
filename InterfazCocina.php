@@ -140,11 +140,12 @@ include "admin/footer.php";
 <body>
     <header class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <img src="./img/Cocina/logococina.jpeg" alt="Logotipo del sitio" id="logotipo" class="producto" />
+            <img src="./img/logos/4u.jpeg" alt="Logotipo del sitio" id="logotipo" class="producto" />
         </div>
         <div class="topnav" id="myTopnav">
             <h3>Pedidos en Cocina</h3>
         </div>
+        <button class="btn-salir"><a href="admin/salir.php">Salir</a></button>
     </header>
 
     <main class="container mt-5" style="margin-top: 100px;">

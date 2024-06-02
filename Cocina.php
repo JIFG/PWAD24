@@ -289,7 +289,7 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
       echo '<div class="card" style="width: 18rem; margin: 10px; border: 1px solid #333; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);">
           <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
           <div class="card-body" style="background-color: #F7F7F7; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <h5 class="card-title" style="color: #17A2B8;">' . strtoupper($result->categoria) . '</h5>
+        <h5 class="card-title" style="color: #17A2B8;">' . strtoupper($result->plato) . '</h5>
         <p class="card-text" style="color: #333;">' . $result->descripcion . '</p>
         <a href="#" onclick="document.getElementById(\'' . $formId . '\').submit()" class="btn btn-primary" style="background-color: #17A2B8; border: none; ">Pedir</a>
         <form id="' . $formId . '" action="agregarpedido.php" method="post" style="display: none;">

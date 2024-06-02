@@ -21,15 +21,13 @@ try {
         $_SESSION['socioId'] = $result->socioId;
         $_SESSION['tipo'] = $result->tipo;
 
-        // Redirigir según el tipo de usuario
         if ($result->tipo == 1) {
             header("Location: users.php");
         } elseif ($result->tipo == 2) {
-            header("Location: ../cocina.php");
+            header("Location: ../cafeteria");
         } elseif ($result->tipo == 3) {
-            header("Location: ../interfazcocina.php");
+            header("Location: ../Cocina");
         } else {
-            // En caso de un tipo no reconocido, redirigir a una página por defecto o mostrar un error
             header("Location: index.php?error=Tipo de usuario no reconocido");
         }
         exit();
@@ -38,7 +36,8 @@ try {
     if (!$userFound) {
         session_destroy();
         $error = "Datos incorrectos";
-        echo "<script>alert('" . $error . "'); window.location.href = 'index.php?error=" . urlencode($error) . "';</script>";
+        echo "<script>alert('" . $error . "'); window.location.href = '../logincocina.php?error=" . urlencode($error) . "';</script>";
+
         exit();
     }
 

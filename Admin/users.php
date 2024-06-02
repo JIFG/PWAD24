@@ -2,8 +2,6 @@
 include("../conexion.php");
 include "encabezado.php";
 
-
-
 // Verificar si el usuario tiene credenciales de administrador
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] != 1) {
     // Si no es un administrador, redirigir a una página de acceso no autorizado
@@ -11,16 +9,25 @@ if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] != 1) {
     exit();
 }
 
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmar_eliminar'])) {
     $id_usuario = $_POST['id_usuario'];
 
-    // Prepara y ejecuta la consulta para eliminar el usuario
+    // Obtener la ruta de la imagen del usuario
+    $stmt_get_avatar = $conn->prepare("SELECT avatar FROM usuarios WHERE id = ?");
+    $stmt_get_avatar->execute([$id_usuario]);
+    $row = $stmt_get_avatar->fetch(PDO::FETCH_ASSOC);
+    $avatar_path = "../" . $row['avatar'];
+
+    // Eliminar la imagen del usuario si existe
+    if (file_exists($avatar_path)) {
+        unlink($avatar_path);
+    }
+
+    // Preparar y ejecutar la consulta para eliminar el usuario
     $stmt = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
     $stmt->execute([$id_usuario]);
 
-    // Redirige a la página actual para actualizar la lista de usuarios
+    // Redirigir a la página actual para actualizar la lista de usuarios
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
@@ -36,7 +43,14 @@ function obtenerNombreNivel($tipo) {
 }
 
 ?>
-
+<style>
+    .avatar-image {
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+    }
+</style>
 <br>
 <h1>ADMINISTRADOR DE USUARIOS</h1>
 <hr>
@@ -61,7 +75,8 @@ function obtenerNombreNivel($tipo) {
         echo "<td>" . $row->email . "</td>";
         echo "<td><i class='fa-solid fa-file-pen' style='font-size: 40px'></i></td>";
         echo "<td>" . obtenerNombreNivel($row->tipo) . "</td>";
-        echo "<td><img src='../" . $row->avatar . "' class='w-5' style='width: 100px'></td>";
+        // Corregir la ruta de la imagen del avatar para que sea relativa
+        echo "<td><img src='../" . $row->avatar . "' class='avatar-image'></td>";
         echo "<td>" . $row->fechaRegistro . "</td>";
         echo "<td><a href='editar_usuario.php?id=" . $row->id . "'><i class='fa-solid fa-edit' style='font-size: 20px'></i> Editar</a></td>";
         echo "<td>
@@ -93,7 +108,8 @@ function obtenerNombreNivel($tipo) {
                 <label class="form-label" for="socioId"><b>Socio ID</b></label>
                 <input class="form-control" type="text" placeholder="socioId" name="socioId" required>
             </div>
-            <div class="mb-3">
+            <div
+            class="mb-3">
                 <label class="form-label" for="contrasena"><b>Contraseña</b></label>
                 <input class="form-control" type="password" placeholder="Contraseña" name="contrasena" required>
             </div>
@@ -105,7 +121,8 @@ function obtenerNombreNivel($tipo) {
                     <option value="3">Cocinero</option>
                 </select>
             </div>
-            <div class="mb-3">
+            <div
+            class="mb-3">
                 <label class="form-label" for="avatar"><b>Avatar</b></label>
                 <input class="form-control" type="file" name="avatar">
             </div>

@@ -64,7 +64,6 @@ echo '
 <table class="table">
 <tr>
 <th>PLATO</th>
-<th>CATEGORÍA</th>
 <th>IMAGEN</th>
 <th>DESCRIPCIÓN</th>
 <th>MODIFICAR</th>
@@ -75,16 +74,7 @@ echo '
 $stmtPlatos = $conn->prepare("SELECT * FROM cocina2");
 $stmtPlatos->execute();
 while($row = $stmtPlatos->fetch(PDO::FETCH_OBJ)){ 
-    echo "<tr>";
-    echo "<td>" . $row->categoria . "</td>";
-    // Consulta para obtener la categoría del plato
-    $stmtCategoriasPadre = $conn->prepare("SELECT * FROM cocina2 WHERE menuId = ?");
-    $stmtCategoriasPadre->execute([$row->catPadre]);
-    if($rowPadre = $stmtCategoriasPadre->fetch(PDO::FETCH_OBJ)){ 
-        echo "<td>" . $rowPadre->categoria . "</td>";
-    }else{
-        echo "<td> -- </td>";
-    }
+    echo "<td>" . $row->plato . "</td>";
     echo "<td><img src='../" . $row->imagen . "' style='width:70px; height:70px;'></td>";
     echo "<td>" . $row->descripcion . "</td>";
     echo '<td><a class="btn btn-sm" style="width: auto;" href="editCatForm.php?menuId='.$row->menuId.'"><i class="fa-solid fa-file-pen" style="font-size:40px"></i></a></td>';

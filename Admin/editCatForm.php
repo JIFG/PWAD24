@@ -9,51 +9,32 @@ try {
     $stmt = $conn->prepare("SELECT * FROM cocina2 WHERE menuId = ?");
     $stmt->execute([$idCat]);
 
-    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+    if ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
         echo '
         <!-- Form Modificar Categoría -->
-        <div id="editCat" class="modal">
-            <span onclick="document.getElementById(&quot;editCat&quot;).style.display=&quot;none&quot;" class="close" title="Close Modal">&times;</span>
+        <div id="editCat" class="modal" style="display:block;">
+            <span onclick="cerrarModal()" class="close" title="Close Modal">&times;</span>
             <form class="modal-content" action="editCat.php" method="POST" enctype="multipart/form-data">
                 <div class="container">
-                    <h1>Modificar categoría ' . $row->categoria . '</h1>
+                    <h1>Modificar plato ' . htmlspecialchars($row->plato) . '</h1>
                     <hr>
-                    <input type="hidden" name="idEdit" value="' . $idCat . '">
+                    <input type="hidden" name="idEdit" value="' . htmlspecialchars($idCat) . '">
                     <div class="mb-3">
-                        <label class="form-label" for="catEdit"><b>Categoría</b></label>
-                        <input class="form-control" type="text" placeholder="Escribe el nombre de la categoría" name="catEdit" id="catEdit" required value="' . $row->categoria . '">
+                        <label class="form-label" for="catEdit"><b>Nombre del Plato</b></label>
+                        <input class="form-control" type="text" placeholder="Escribe el nombre del plato" name="catEdit" id="catEdit" required value="' . htmlspecialchars($row->plato) . '">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="catPadre"><b>Categoría superior</b></label>
-                        <select class="form-control" name="catPadreEdit" required>
-                            <option value="0" selected>Ninguna</option>';
-        // Consulta para obtener todas las categorías
-        $stmtCategorias = $conn->prepare("SELECT * FROM cocina2");
-        $stmtCategorias->execute();
-
-        while ($row2 = $stmtCategorias->fetch(PDO::FETCH_OBJ)) {
-            echo '<option value="' . $row2->id . '"';
-            if ($row2->id == $row->catPadre) {
-                echo ' selected';
-            }
-            echo '>' . $row2->categoria . '</option>';
-        }
-
-        echo '
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="img"><b>Imagen</b></label>
-                        <img src="../' . $row->imagen . '" id="imgCatEdit" style="width:100px;">
-                        <input type="hidden" name="imgNoChange" value="' . $row->imagen . '">
+                        <label class="form-label" for="img"><b>Imagen</b></label><br>
+                        <img src="../' . htmlspecialchars($row->imagen) . '" id="imgCatEdit" style="width:100px;"><br>
+                        <input type="hidden" name="imgNoChange" value="' . htmlspecialchars($row->imagen) . '">
                         <input class="form-control" type="file" name="img" id="imgCatEditSRC">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="desc"><b>Descripción</b></label><br>
-                        <textarea class="form-control" name="descEdit" id="descEdit" rows="5">' . $row->descripcion . '</textarea>
+                        <textarea class="form-control" name="descEdit" id="descEdit" rows="5">' . htmlspecialchars($row->descripcion) . '</textarea>
                     </div>
                     <div class="clearfix">
-                        <button type="button" onclick="document.getElementById(&quot;editCat&quot;).style.display=&quot;none&quot;" class="cancelbtn">Cancelar</button>
+                        <button type="button" onclick="cerrarModal()" class="cancelbtn">Cancelar</button>
                         <button type="submit" class="signup">Modificar categoría</button>
                     </div>
                 </div>
@@ -61,6 +42,8 @@ try {
         </div>
         <!-- Fin Modificar Categoría -->
         ';
+    } else {
+        echo "Categoría no encontrada.";
     }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
@@ -69,3 +52,9 @@ try {
 include "footer.php";
 $conn = null;
 ?>
+
+<script>
+    function cerrarModal() {
+        window.location.href = 'categorias.php'; 
+    }
+</script>
