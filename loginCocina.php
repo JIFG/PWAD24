@@ -7,7 +7,6 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Verifica si hay una sesión activa
 if (isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] == 'si') {
-    // Si hay una sesión activa, la cerramos
     session_unset();
     session_destroy();
 }

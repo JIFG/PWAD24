@@ -17,7 +17,7 @@ RewriteRule ^editCatForm/(\d+)$ editCatForm.php?menuId=$1 [L]
 # Redirigir /cocina a cocina.php
 RewriteRule ^cafeteria$ cocina.php [L]
 
-# Redirigir /interfazCocina a interfazCocina.php
+# Redirigir /Cocina a interfazCocina.php
 RewriteRule ^Cocina$ interfazCocina.php [L]
 
 

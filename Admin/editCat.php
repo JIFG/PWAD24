@@ -8,7 +8,7 @@ $catPadre = $_POST["catPadreEdit"];
 // Verificar si se seleccionó una imagen
 if(isset($_FILES["img"]["name"]) && strlen($_FILES["img"]["name"]) > 0) {
     // Si se seleccionó una imagen, establecer la ruta
-    $img = "img/catalogo/categorias/" . $_FILES["img"]["name"];
+    $img = "img/Menu/" . $_FILES["img"]["name"];
 } else {
     // Si no se seleccionó ninguna imagen, mantener la imagen actual
     $img = $_POST["imgNoChange"];

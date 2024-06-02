@@ -1,6 +1,6 @@
 <?php
 $archivo = $_FILES['img']['name'];
-$url="../img/catalogo/categorias/"; if(isset($archivo) && $archivo != "") {
+$url="../img/Menu/"; if(isset($archivo) && $archivo != "") {
 $tipo = $_FILES['img']['type'];
 $tamano = $_FILES['img']['size'];
 $temp = $_FILES['img']['tmp_name'];
