@@ -2,7 +2,7 @@
 include "../conexion.php";
 
 $cat = $_POST["cat"];
-$catPadre = isset($_POST["catPadre"]) ? $_POST["catPadre"] : null; // Verificar si catPadre está definido
+$catPadre = isset($_POST["catPadre"]) ? $_POST["catPadre"] : null; 
 $img = $_FILES['img']['name'] ? "img/Menu/".$_FILES['img']['name'] : "img/Menu/no-image.png";
 $desc = $_POST["desc"];
 
@@ -13,9 +13,7 @@ $stmt->bindParam(':catPadre', $catPadre);
 $stmt->bindParam(':descripcion', $desc);
 
 if ($stmt->execute()) {
-    // La consulta SQL se ejecutó correctamente
 
-    // Mover el archivo de imagen al directorio de destino
     if ($_FILES['img']['name']) {
         $targetDir = "../img/Menu/";
         $targetFile = $targetDir . basename($_FILES["img"]["name"]);
@@ -29,7 +27,6 @@ if ($stmt->execute()) {
 
     header("Location: categorias.php");
 } else {
-    // Error al ejecutar la consulta SQL
     echo "Error al ejecutar la consulta.";
 }
 

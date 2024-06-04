@@ -1,6 +1,5 @@
 
 <?php
-// Inicia la sesión si aún no está iniciada
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -16,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = $_POST["user"];
     $password = $_POST["pss"];
 
-    // Validar campos
     if (empty($user) || empty($password)) {
         $error = "Por favor, complete todos los campos";
     } else {
@@ -61,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </form>
 </main>
 <script>
-    // Obtener el formulario
     const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
         if (!form.checkValidity()) {

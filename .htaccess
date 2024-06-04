@@ -3,7 +3,7 @@ RewriteEngine On
 # Redirigir /login a logincocina.php
 RewriteRule ^login$ logincocina.php [L]
 
-RewriteRule ^users$ users.php [L]
+RewriteRule ^/usuarios$ users.php [L]
 
 # Redirigir /categorias a categorias.php
 RewriteRule ^categorias$ categorias.php [L]

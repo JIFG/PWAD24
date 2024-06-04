@@ -1,10 +1,13 @@
 <?php 
 include "conexion.php";
-include "admin/seguridad.php";
+include "admin/seguridad2.php";
+
+//Validacion de tipo de usuario.
 if (!isset($_SESSION['tipo']) || ($_SESSION['tipo'] != 1 && $_SESSION['tipo'] != 3)) {
     header("Location: acceso_no_autorizado.php");
     exit();
 }
+
 include "admin/footer.php";
 ?>
 <!DOCTYPE html>
@@ -152,7 +155,7 @@ include "admin/footer.php";
     <div class="row">
         <?php
         try {
-            
+            //consulta para obtener los pedidos temporales
             $stmt = $conn->prepare("SELECT pt.id, pt.socioId, pt.menuId, pt.fecha_pedido, pt.entregado, c2.descripcion 
                                     FROM Pedidos_Temporales pt 
                                     INNER JOIN Cocina2 c2 ON pt.menuId = c2.menuId");

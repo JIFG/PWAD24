@@ -1,5 +1,5 @@
 <?php
   session_start();
   session_destroy();
-  header("Location:../logincocina.php");
+  header("Location:../login");
 ?>

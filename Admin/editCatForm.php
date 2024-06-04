@@ -5,7 +5,7 @@ include "encabezado.php";
 $idCat = $_GET['menuId'];
 
 try {
-    // Consulta para obtener la categoría específica
+
     $stmt = $conn->prepare("SELECT * FROM cocina2 WHERE menuId = ?");
     $stmt->execute([$idCat]);
 

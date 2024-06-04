@@ -27,12 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_usuario'])) {
 if (isset($_GET['id'])) {
     $id_usuario = $_GET['id'];
 
-    // Prepara y ejecuta la consulta para obtener los datos del usuario
     $stmt = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
     $stmt->execute([$id_usuario]);
     $usuario = $stmt->fetch(PDO::FETCH_OBJ);
 } else {
-    // Si no se proporciona un ID de usuario, redirige a la página de usuarios
     header("Location: users.php");
     exit();
 }

@@ -1,6 +1,6 @@
 <?php 
 include "conexion.php";
-include "admin/seguridad.php";
+include "admin/seguridad2.php";
 ?>
 <?php
 
@@ -193,7 +193,6 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
     </header>
 
     <main>
-      <!-- Inicio del carrusel -->
       <div
         id="carouselExampleCaptions"
         class="carousel slide"
@@ -275,14 +274,13 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
           <span class="visually-hidden">Siguiente</span>
         </button>
       </div>
-      <!-- Fin del carrusel -->
 
       <section class="d-flex flex-wrap justify-content-between p-4 g-4" id="CardsPropios">
       <?php
       try {
         $stmt = $conn->prepare("SELECT * FROM cocina2");
         $stmt->execute();
-        $count = 0; // Variable para generar IDs únicos
+        $count = 0; 
 
         while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {
       $formId = 'pedidoForm' . $count;
@@ -306,18 +304,10 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
       ?>
     </section>
       </div>
-      <!-- Fin del Section de Catálogos -->
     </main>
 
     <footer class="bg-dark text-white text-center py-3">
       <p>&copy; Cocina.</p>
-      <div class="d-flex align-items-center">
-        <img
-          src="./img/Cocina/arbol.jpeg"
-          alt="Logotipo del sitio"
-          id="logotipo"
-          class="producto"
-        />
       </div>
     </footer>
 
@@ -329,9 +319,7 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
     <script>
         // Verificar si existe un mensaje de éxito en la variable de sesión
         <?php if (isset($_SESSION['success_message'])): ?>
-            // Mostrar una ventana emergente con el mensaje de éxito
             alert("<?php echo $_SESSION['success_message']; ?>");
-            // Eliminar el mensaje de éxito de la variable de sesión
             <?php unset($_SESSION['success_message']); ?>
         <?php endif; ?>
     </script>
