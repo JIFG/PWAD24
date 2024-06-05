@@ -36,7 +36,7 @@ try {
     if (!$userFound) {
         session_destroy();
         $error = "Datos incorrectos";
-        echo "<script>alert('" . $error . "'); window.location.href = '/logincocina.php?error=" . urlencode($error) . "';</script>";
+        echo "<script>alert('" . $error . "'); window.location.href = '../login?error=" . urlencode($error) . "';</script>";
 
         exit();
     }

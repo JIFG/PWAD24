@@ -42,6 +42,15 @@ function obtenerNombreNivel($tipo) {
     return $niveles[$tipo];
 }
 
+// Función para obtener la ruta del avatar basado en el tipo de usuario
+function obtenerRutaAvatar($tipo) {
+    $rutas = array(
+        1 => "../img/users/admin.png",
+        2 => "../img/users/user.png",
+        3 => "../img/users/chef.png"
+    );
+    return $rutas[$tipo];
+}
 ?>
 <style>
     .avatar-image {
@@ -49,6 +58,8 @@ function obtenerNombreNivel($tipo) {
         height: 50px; 
         border-radius: 50%; 
         object-fit: cover; 
+        border: 2px solid #ddd;
+        padding: 2px;
     }
 </style>
 <br>
@@ -58,7 +69,6 @@ function obtenerNombreNivel($tipo) {
 <table class="table">
     <tr>
         <th>USUARIO/EMAIL</th>
-        <th>CONTRASEÑA</th>
         <th>NIVEL</th>
         <th>AVATAR</th>
         <th>FECHA DE REGISTRO</th>
@@ -73,10 +83,9 @@ function obtenerNombreNivel($tipo) {
     while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
         echo "<tr>";
         echo "<td>" . $row->email . "</td>";
-        echo "<td><i class='fa-solid fa-file-pen' style='font-size: 40px'></i></td>";
         echo "<td>" . obtenerNombreNivel($row->tipo) . "</td>";
-        // Corregir la ruta de la imagen del avatar para que sea relativa
-        echo "<td><img src='../" . $row->avatar . "' class='avatar-image'></td>";
+        // Utilizar la función obtenerRutaAvatar para obtener la ruta correcta de la imagen
+        echo "<td><img src='" . obtenerRutaAvatar($row->tipo) . "' class='avatar-image'></td>";
         echo "<td>" . $row->fechaRegistro . "</td>";
         echo "<td><a href='editar_usuario.php?id=" . $row->id . "'><i class='fa-solid fa-edit' style='font-size: 20px'></i> Editar</a></td>";
         echo "<td>
@@ -108,8 +117,7 @@ function obtenerNombreNivel($tipo) {
                 <label class="form-label" for="socioId"><b>Socio ID</b></label>
                 <input class="form-control" type="text" placeholder="socioId" name="socioId" required>
             </div>
-            <div
-            class="mb-3">
+            <div class="mb-3">
                 <label class="form-label" for="contrasena"><b>Contraseña</b></label>
                 <input class="form-control" type="password" placeholder="Contraseña" name="contrasena" required>
             </div>
@@ -120,11 +128,6 @@ function obtenerNombreNivel($tipo) {
                     <option value="2">Usuario</option>
                     <option value="3">Cocinero</option>
                 </select>
-            </div>
-            <div
-            class="mb-3">
-                <label class="form-label" for="avatar"><b>Avatar</b></label>
-                <input class="form-control" type="file" name="avatar">
             </div>
             <div class="clearfix">
                 <button type="button" onclick="document.getElementById('altaUsuario').style.display='none'" class="cancelbtn">Cancelar</button>

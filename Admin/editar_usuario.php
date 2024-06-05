@@ -13,10 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_usuario'])) {
     $email = $_POST['email'];
     $nivel = $_POST['nivel'];
     $socioId = $_POST['socioId'];
+    $contrasena = $_POST['contrasena'];
 
-    // Prepara y ejecuta la consulta para actualizar los datos del usuario
-    $stmt = $conn->prepare("UPDATE usuarios SET email = ?, tipo = ?, socioId = ? WHERE id = ?");
-    $stmt->execute([$email, $nivel, $socioId, $id_usuario]);
+    // Si la contraseña no está vacía, actualiza también la contraseña
+    if (!empty($contrasena)) {
+        $stmt = $conn->prepare("UPDATE usuarios SET email = ?, tipo = ?, socioId = ?, pss = ? WHERE id = ?");
+        $stmt->execute([$email, $nivel, $socioId, $contrasena, $id_usuario]);
+    } else {
+        $stmt = $conn->prepare("UPDATE usuarios SET email = ?, tipo = ?, socioId = ? WHERE id = ?");
+        $stmt->execute([$email, $nivel, $socioId, $id_usuario]);
+    }
 
     // Redirige a la página de usuarios para actualizar la lista
     header("Location: users.php");
@@ -58,12 +64,15 @@ if (isset($_GET['id'])) {
             <option value="3" <?php if ($usuario->tipo == 3) echo "selected"; ?>>Cocinero</option>
         </select>
     </div>
+    <div class="mb-3">
+        <label class="form-label" for="contrasena"><b>Contraseña</b> (déjelo en blanco si no desea cambiarla)</label>
+        <input class="form-control" type="password" placeholder="Contraseña" name="contrasena">
+    </div>
     <div class="clearfix">
         <button type="submit" name="editar_usuario" class="signup">Guardar Cambios</button>
-        <button type="submit" name="cancelar" class="btn btn-danger">Cancelar</button>
+        <button href="users.php" class="btn btn-danger">Cancelar</button>
     </div>
 </form>
 
 <?php
-include "footer.php";
 ?>

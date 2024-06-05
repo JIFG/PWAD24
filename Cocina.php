@@ -20,11 +20,11 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
     <title>Cocina Moderna</title>
     <meta
       name="description"
-      content="Página de muestra para una cocina moderna, con colores azul claro y naranja"
+      content="Cafetería, comida, pedidos en línea, utensilios de cocina"
     />
     <meta
       name="keywords"
-      content="cocina, muebles, electrodomésticos, decoración, utensilios de cocina"
+      content="cocina, comida, pedidos en linea, utensilios de cocina"
     />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -223,35 +223,35 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="img/slides/acuario.jpg"
+              src="img/slides/comida1.jpg"
               class="d-block w-100"
-              alt="Cocina moderna"
+              alt="Imagen menu"
             />
             <div class="carousel-caption d-none d-md-block">
-              <h5>Cocina Moderna</h5>
-              <p>Diseños innovadores y funcionales para tu hogar.</p>
+              <h5>Cafeteria</h5>
+              <p>El menu de toda la semana.</p>
             </div>
           </div>
           <div class="carousel-item">
             <img
-              src="img/Cocina/pollofeliz.jpg"
+              src="img/slides/carneasada.jpg"
               class="d-block w-100"
-              alt="Electrodomésticos"
+              alt="Imagen 2"
             />
             <div class="carousel-caption d-none d-md-block">
-              <h5>Electrodomésticos</h5>
-              <p>Última tecnología para facilitar tu vida.</p>
+              <h5>Carnea Asada</h5>
+              <p>Deliciosa Carne Asada.</p>
             </div>
           </div>
           <div class="carousel-item">
             <img
-              src="img/Cocina/pollofeliz.jpg"
+              src="img/slides/hotdogs.jpg"
               class="d-block w-100"
-              alt="Decoración"
+              alt="hot dogs"
             />
             <div class="carousel-caption d-none d-md-block">
-              <h5>Decoración</h5>
-              <p>Estilos únicos que transforman tu cocina.</p>
+              <h5>Hot Dogs</h5>
+              <p>Deliciosos perros calientes.</p>
             </div>
           </div>
         </div>
