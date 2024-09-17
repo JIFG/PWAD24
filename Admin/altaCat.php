@@ -1,20 +1,34 @@
 <?php
 include "../conexion.php";
-$cat=$_POST["cat"];
-$catPadre=$_POST["catPadre"];
-//$img="img/catalogo/categorias/".$_POST["img"];
-$img=$_FILES['img']['name'] ? "img/catalogo/categorias/".$_FILES['img']['name'] : "img/catalogo/categorias/no-image.png";
-$desc=$_POST["desc"];
 
-$stmt=$conn->prepare("INSERT INTO `categorias`(`categoria`, `imagen`, `catPadre`, `descripcion`) VALUES (?, ?, ?, ?)");
-$stmt->bindParam(1, $cat);
-$stmt->bindParam(2, $img);
-$stmt->bindParam(3, $catPadre);
-$stmt->bindParam(4, $desc);
+$cat = $_POST["cat"];
+$catPadre = isset($_POST["catPadre"]) ? $_POST["catPadre"] : null; 
+$img = $_FILES['img']['name'] ? "img/Menu/".$_FILES['img']['name'] : "img/Menu/no-image.png";
+$desc = $_POST["desc"];
 
-if($stmt->execute()){ include("subirImg.php"); header("Location:categorias.php");
+$stmt = $conn->prepare("INSERT INTO `cocina2`(`plato`, `imagen`, `catPadre`, `descripcion`) VALUES (:categoria, :imagen, :catPadre, :descripcion)");
+$stmt->bindParam(':categoria', $cat);
+$stmt->bindParam(':imagen', $img);
+$stmt->bindParam(':catPadre', $catPadre);
+$stmt->bindParam(':descripcion', $desc);
+
+if ($stmt->execute()) {
+
+    if ($_FILES['img']['name']) {
+        $targetDir = "../img/Menu/";
+        $targetFile = $targetDir . basename($_FILES["img"]["name"]);
+        if (move_uploaded_file($_FILES["img"]["tmp_name"], $targetFile)) {
+            // La imagen se ha subido correctamente
+        } else {
+            echo "Error al subir la imagen.";
+            exit();
+        }
+    }
+
+    header("Location: categorias.php");
+} else {
+    echo "Error al ejecutar la consulta.";
 }
 
-$conn=null;
+$conn = null;
 ?>
-

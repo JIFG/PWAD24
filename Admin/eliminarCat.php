@@ -1,11 +1,17 @@
 <?php
-include "../conexion.php";
-$id=$_POST["idDel"];
- 
-$stmt=$conn->prepare("DELETE FROM categorias WHERE id=$id");
+include("../conexion.php");
 
-if($stmt->execute()){ header("Location:categorias.php");
+
+if(isset($_POST['idDel'])) {
+    $idToDelete = $_POST['idDel'];
+
+    $stmt = $conn->prepare("DELETE FROM cocina2 WHERE menuId = ?");
+    $stmt->execute([$idToDelete]);
+
+    header("Location: categorias.php");
+    exit();
+} else {
+    header("Location: error.php");
+    exit();
 }
-
-$conn=null;
 ?>

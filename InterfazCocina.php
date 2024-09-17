@@ -1,5 +1,14 @@
 <?php 
 include "conexion.php";
+include "admin/seguridad2.php";
+
+//Validacion de tipo de usuario.
+if (!isset($_SESSION['tipo']) || ($_SESSION['tipo'] != 1 && $_SESSION['tipo'] != 3)) {
+    header("Location: acceso_no_autorizado.php");
+    exit();
+}
+
+include "admin/footer.php";
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
@@ -134,30 +143,31 @@ include "conexion.php";
 <body>
     <header class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <img src="./img/Cocina/logococina.jpeg" alt="Logotipo del sitio" id="logotipo" class="producto" />
+            <img src="./img/logos/4u.jpeg" alt="Logotipo del sitio" id="logotipo" class="producto" />
         </div>
         <div class="topnav" id="myTopnav">
             <h3>Pedidos en Cocina</h3>
         </div>
+        <button class="btn-salir"><a href="admin/salir.php">Salir</a></button>
     </header>
 
     <main class="container mt-5" style="margin-top: 100px;">
     <div class="row">
         <?php
         try {
-            // Consulta para obtener los pedidos temporales y las descripciones de la tabla Cocina2
+            //consulta para obtener los pedidos temporales
             $stmt = $conn->prepare("SELECT pt.id, pt.socioId, pt.menuId, pt.fecha_pedido, pt.entregado, c2.descripcion 
                                     FROM Pedidos_Temporales pt 
                                     INNER JOIN Cocina2 c2 ON pt.menuId = c2.menuId");
             $stmt->execute(); 
 
-            // Mostrar los resultados de la consulta
+           
             while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Pedido Socio #: ' . $result['socioId'] . '</h5>
+                            <h5 class="card-title">Pedido Socio # ' . $result['socioId'] . '</h5>
                             <p class="card-text">Descripción: ' . $result['descripcion'] . '</p>
                             <p class="card-text">Entregado: ' . ($result['entregado'] ? 'Sí' : 'No') . '</p>
                             <form method="POST" action="admin/eliminarpedido.php" onsubmit="return confirm(\'¿Estás seguro de que deseas eliminar este pedido?\');">
@@ -176,9 +186,13 @@ include "conexion.php";
     </div>
 </main>
 
-
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; Cocina.</p>
-    </footer>
+    <script>
+        function recargarPagina() {
+            setTimeout(function() {
+                location.reload(true); 
+            }, 60000);
+        }
+        recargarPagina();
+    </script>
 </body>
 </html>

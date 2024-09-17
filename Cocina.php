@@ -1,8 +1,8 @@
 <?php 
 include "conexion.php";
+include "admin/seguridad2.php";
 ?>
 <?php
-session_start();
 
 if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
     // La sesión ha caducado o el usuario no ha iniciado sesión
@@ -20,11 +20,11 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
     <title>Cocina Moderna</title>
     <meta
       name="description"
-      content="Página de muestra para una cocina moderna, con colores azul claro y naranja"
+      content="Cafetería, comida, pedidos en línea, utensilios de cocina"
     />
     <meta
       name="keywords"
-      content="cocina, muebles, electrodomésticos, decoración, utensilios de cocina"
+      content="cocina, comida, pedidos en linea, utensilios de cocina"
     />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -119,6 +119,7 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
       .card-text {
         font-size: 0.875rem;
       }
+      
       .btn-primary {
         background-color: #17a2b8;
         border: none;
@@ -149,24 +150,34 @@ if (!isset($_SESSION['sessionOn']) || $_SESSION['sessionOn'] !== 'si') {
           width: 100%;
         }
       }
+      .socio-id {
+        position: absolute;
+        top: 20px;
+        right: 140px;
+      }
+
+    .btn-salir {
+      background-color: transparent;
+      border: none;
+      color: #17a2b8;
+      font-weight: bold;
+    }
+    .btn-salir a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .btn-salir:hover {
+      background-color: rgba(23, 162, 184, 0.1);
+    }
     </style>
   </head>
   <body>
   <?php
-
-// Verificar si el usuario ha iniciado sesión
-if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
-    echo "Usuario: " . $_SESSION['user'] . "<br>";
-    echo "Contraseña: " . $_SESSION['pss'] . "<br>";
-    echo "ID de Socio: " . $_SESSION['socioId'] . "<br>";
-} else {
-    echo "No has iniciado sesión.";
-}
 ?>
     <header>
       <div class="d-flex align-items-center">
         <img
-          src="./img/Cocina/logococina.jpeg"
+          src="img/logos/4u.jpeg"
           alt="Logotipo del sitio"
           id="logotipo"
           class="producto"
@@ -174,12 +185,14 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
       </div>
       <div class="topnav" id="myTopnav">
         <h3>Cafetería</h3>
-        <h3>Socio ID: <?php echo $_SESSION['socioId']; ?></h3>
       </div>
+      <div class="socio-id">
+        <h5>Socio ID: <?php echo $_SESSION['socioId']; ?></h5>
+      </div>
+      <button class="btn-salir"><a href="admin/salir.php">Salir</a></button>
     </header>
 
     <main>
-      <!-- Inicio del carrusel -->
       <div
         id="carouselExampleCaptions"
         class="carousel slide"
@@ -210,35 +223,35 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="img/Cocina/cena1.jpg"
+              src="img/slides/comida1.jpg"
               class="d-block w-100"
-              alt="Cocina moderna"
+              alt="Imagen menu"
             />
             <div class="carousel-caption d-none d-md-block">
-              <h5>Cocina Moderna</h5>
-              <p>Diseños innovadores y funcionales para tu hogar.</p>
+              <h5>Cafeteria</h5>
+              <p>El menu de toda la semana.</p>
             </div>
           </div>
           <div class="carousel-item">
             <img
-              src="img/Cocina/pollofeliz.jpg"
+              src="img/slides/carneasada.jpg"
               class="d-block w-100"
-              alt="Electrodomésticos"
+              alt="Imagen 2"
             />
             <div class="carousel-caption d-none d-md-block">
-              <h5>Electrodomésticos</h5>
-              <p>Última tecnología para facilitar tu vida.</p>
+              <h5>Carnea Asada</h5>
+              <p>Deliciosa Carne Asada.</p>
             </div>
           </div>
           <div class="carousel-item">
             <img
-              src="img/Cocina/pollofeliz.jpg"
+              src="img/slides/hotdogs.jpg"
               class="d-block w-100"
-              alt="Decoración"
+              alt="hot dogs"
             />
             <div class="carousel-caption d-none d-md-block">
-              <h5>Decoración</h5>
-              <p>Estilos únicos que transforman tu cocina.</p>
+              <h5>Hot Dogs</h5>
+              <p>Deliciosos perros calientes.</p>
             </div>
           </div>
         </div>
@@ -261,47 +274,40 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
           <span class="visually-hidden">Siguiente</span>
         </button>
       </div>
-      <!-- Fin del carrusel -->
 
-      <section class="d-flex justify-content-between p-4" id="CardsPropios">
+      <section class="d-flex flex-wrap justify-content-between p-4 g-4" id="CardsPropios">
       <?php
       try {
         $stmt = $conn->prepare("SELECT * FROM cocina2");
         $stmt->execute();
+        $count = 0; 
 
         while ($result = $stmt->fetch(PDO::FETCH_OBJ)) {
-          echo '<div class="card" style="width: 18rem">
-    <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
-    <div class="card-body">
-        <h5 class="card-title">' . strtoupper($result->categoria) . '</h5>
-        <p class="card-text">' . $result->descripcion . '</p>
-        <a href="#" onclick="document.getElementById(\'pedidoForm\').submit()" class="btn btn-primary">Pedir</a>
-
-        <form id="pedidoForm" action="agregarpedido.php" method="post" style="display: none;">
-            <input type="hidden" name="menuId" value="' . $result->menuId . '">
+      $formId = 'pedidoForm' . $count;
+      echo '<div class="card" style="width: 18rem; margin: 10px; border: 1px solid #333; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);">
+          <img src="' . $result->imagen . '" class="card-img-top" alt="..." />
+          <div class="card-body" style="background-color: #F7F7F7; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h5 class="card-title" style="color: #17A2B8;">' . strtoupper($result->plato) . '</h5>
+        <p class="card-text" style="color: #333;">' . $result->descripcion . '</p>
+        <a href="#" onclick="document.getElementById(\'' . $formId . '\').submit()" class="btn btn-primary" style="background-color: #17A2B8; border: none; ">Pedir</a>
+        <form id="' . $formId . '" action="agregarpedido.php" method="post" style="display: none;">
+          <input type="hidden" name="menuId" value="' . $result->menuId . '">
         </form>
-    </div>
-</div>';
+          </div>
+        </div>';
+      $count++;
         }
       } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
       }
       $conn = null;
       ?>
-        </section>
+    </section>
       </div>
-      <!-- Fin del Section de Catálogos -->
     </main>
 
     <footer class="bg-dark text-white text-center py-3">
       <p>&copy; Cocina.</p>
-      <div class="d-flex align-items-center">
-        <img
-          src="./img/Cocina/arbol.jpeg"
-          alt="Logotipo del sitio"
-          id="logotipo"
-          class="producto"
-        />
       </div>
     </footer>
 
@@ -310,6 +316,13 @@ if(isset($_SESSION['sessionOn']) && $_SESSION['sessionOn'] === 'si') {
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+    <script>
+        // Verificar si existe un mensaje de éxito en la variable de sesión
+        <?php if (isset($_SESSION['success_message'])): ?>
+            alert("<?php echo $_SESSION['success_message']; ?>");
+            <?php unset($_SESSION['success_message']); ?>
+        <?php endif; ?>
+    </script>
     <script>
       function myFunction() {
         var x = document.getElementById("myTopnav")

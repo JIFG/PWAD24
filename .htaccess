@@ -1,0 +1,23 @@
+RewriteEngine On
+
+# Redirigir /login a logincocina.php
+RewriteRule ^login$ logincocina.php [L]
+
+RewriteRule ^/usuarios$ users.php [L]
+
+# Redirigir /categorias a categorias.php
+RewriteRule ^categorias$ categorias.php [L]
+
+# Redirigir /editar_usuario/ cualquier-cadena a editar_usuario.php?usuario= cualquier-cadena
+RewriteRule ^editar_usuario/(.*)$ editar_usuario.php?usuario=$1 [L]
+
+# Redirigir /editCatForm/menuId a editCatForm.php?menuId=menuId
+RewriteRule ^editCatForm/(\d+)$ editCatForm.php?menuId=$1 [L]
+
+# Redirigir /cocina a cocina.php
+RewriteRule ^cafeteria$ cocina.php [L]
+
+# Redirigir /Cocina a interfazCocina.php
+RewriteRule ^Cocina$ interfazCocina.php [L]
+
+
